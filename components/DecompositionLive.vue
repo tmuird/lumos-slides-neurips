@@ -10,10 +10,12 @@
 // projected bounding boxes, so nothing can clip.
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import * as THREE from 'three'
-import P, { fluorAt, noisyAt } from '../data/pharma-3349.js'
+import P, { fluorAt, noisyAt, frameTimes } from '../data/pharma-3349.js'
 import { useActive } from './useActive.js'
 
-const props = defineProps({ step: { type: Number, default: 0 } })
+// frames: how much of the series to show. 160 frames is 16 s, so the 16 input frames are one tenth of it.
+// The dataset holds 101 frames; later ones are continued with the same noise model (see the data module).
+const props = defineProps({ step: { type: Number, default: 0 }, frames: { type: Number, default: 160 } })
 // 'stage' reports how far the animation has actually got, so the slide's text can follow it rather than the clicks
 const emit = defineEmits(['stage'])
 const el = ref(null)
@@ -66,7 +68,7 @@ onMounted(() => {
   const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(-1.5, 3, 2); scene.add(sun)
 
   // data on the grid
-  const T = P.t, NT = T.length, tMax = T[NT - 1], NX = P.raman.length, NV = NX * NT
+  const T = frameTimes(props.frames), NT = T.length, tMax = T[NT - 1], NX = P.raman.length, NV = NX * NT
   let zmax = 0
   for (let i = 0; i < NX; i++) zmax = Math.max(zmax, P.raman[i] + fluorAt(0, i, 0) + fluorAt(1, i, 0) + fluorAt(2, i, 0))
   const S = 0.9 / zmax

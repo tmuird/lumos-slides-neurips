@@ -357,8 +357,8 @@ const mfStage = ref(0)
   <div><p><Tex src="N" /> : number of fluorophores</p><p><Tex src="s" /> : Raman signal (fixed)</p></div>
   <div><p><Tex src="B_i" /> : fluorophore spectra</p><p><Tex src="w_i" /> : weight / abundance</p><p><Tex src="\lambda_i" /> : decay rate</p></div>
 </div>
-<p :class="{ 'mf-off': mfStage < 5 }" class="mf-few">LUMOS is given only the first few frames: here 16, the first 1.6 s.</p>
-<p class="caption mf-cap">Pharmaceutical test sample 3349: the measured series, then its true Raman and fluorophores from the simulation.</p>
+<p :class="{ 'mf-off': mfStage < 5 }" class="mf-few">LUMOS is given only the first few frames: here 16 of 160.</p>
+<p class="caption mf-cap">Pharmaceutical test sample 3349: simulated bleaching of a real Raman spectrum. The dataset holds 10 s; the last 6 s continue it with the same noise model.</p>
 
 <style>
 .mf-live { position: absolute; left: 40px; top: 150px; width: 1840px; height: 800px; }

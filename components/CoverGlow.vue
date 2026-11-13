@@ -1,7 +1,7 @@
 <script setup>
 // Cover, as light. Real pharma sample 3349 drawn as glowing spectra receding in time on a dark ground:
 // a blaze of orange at the back while fluorescence dominates, thinning to the blue Raman spectrum at the front.
-// The first 16 frames (1.6 s), all that LUMOS is given, are the white-hot lines at the back.
+// The first 16 frames (1.6 s), all that LUMOS is given, are the white-hot lines at the back: one line per frame.
 // Each line is the clean spectrum at one time, on a square-root time axis; a dark surface under the lines hides
 // the ones behind, so the shape reads. Bloom gives the glow. Static apart from a slow swing of the camera.
 import { onMounted, onBeforeUnmount, ref } from 'vue'
@@ -43,7 +43,9 @@ onMounted(() => {
   const S = 0.85 / zmax
   const X = i => -1.25 + 2.5 * i / (NX - 1)
   const Z = t => -0.9 + 1.8 * Math.sqrt(t / props.tMax)
-  const times = Array.from({ length: NR }, (_, k) => props.tMax * (k / (NR - 1)) ** 2)
+  // exactly the 16 measured frame times first, then the rest of the bleach evenly along the square-root axis
+  const inT = P.t.slice(0, P.nInput), s0 = Math.sqrt(tIn / props.tMax), NO = NR - inT.length
+  const times = [...inT, ...Array.from({ length: NO }, (_, k) => props.tMax * (s0 + (1 - s0) * k / (NO - 1)) ** 2)]
   const h = (j, i) => cleanAt(i, times[j]) * S
 
   // dark surface under the lines, so nearer spectra hide the ones behind them
@@ -68,9 +70,9 @@ onMounted(() => {
     scene.add(new Line2(g, m))
   }
   for (let j = 0; j < NR - 1; j++) {
-    const input = times[j] <= tIn
+    const input = j < inT.length
     // the measured frames are white-hot; after them the colour follows the bleaching
-    lineAt(j, input ? new THREE.Color(1, 0.9, 0.74) : grad(j / (NR - 1)), input ? 1.7 : 1.4, input ? 0.6 : 0.42 + 0.3 * (j / (NR - 1)))
+    lineAt(j, input ? new THREE.Color(1, 0.9, 0.74) : grad((j - inT.length) / (NO - 1)), input ? 1.7 : 1.4, input ? 0.6 : 0.42 + 0.3 * (j / (NR - 1)))
   }
   // the Raman spectrum itself: the brightest line, at the front
   lineAt(NR - 1, new THREE.Color(0.72, 0.88, 1), 3.4, 1)
