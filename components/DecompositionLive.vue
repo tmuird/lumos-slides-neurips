@@ -58,6 +58,9 @@ onMounted(() => {
   renderer.localClippingEnabled = true
   host.appendChild(renderer.domElement)
   const tagIn = document.createElement('div'); tagIn.className = 'dl-label'; tagIn.textContent = '16 input frames'; host.appendChild(tagIn)
+  // axis names for the single measured surface; they fade while it is split into parts
+  const AXES = [['Raman shift (cm⁻¹)', [0.05, 0, 0.75], 'translate(-50%, 18px)'], ['Time (s)', [1.14, 0, 0.3], 'translate(52px, 30px)'], ['Intensity', [-1, 0.55, -0.75], 'translate(-100%, -50%) translate(-20px, 0)']]
+    .map(([text, at, shift]) => { const d = document.createElement('div'); d.className = 'dl-label dl-axis'; d.textContent = text; host.appendChild(d); return { d, at: new THREE.Vector3(...at), shift } })
   const scene = new THREE.Scene()
   scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2c4, 1.9))
   const sun = new THREE.DirectionalLight(0xffffff, 1.4); sun.position.set(-1.5, 3, 2); scene.add(sun)
@@ -209,6 +212,12 @@ onMounted(() => {
     const q = tagAt.clone().project(cam)
     tagIn.style.opacity = mark
     tagIn.style.transform = `translate(-50%, -100%) translate(${(q.x + 1) / 2 * W}px, ${(1 - q.y) / 2 * H}px)`
+    const axisOn = (1 - Math.min(1, s * 4)) * (1 - L)
+    for (const a of AXES) {
+      const v = a.at.clone().project(cam)
+      a.d.style.opacity = axisOn
+      a.d.style.transform = `translate(${(v.x + 1) / 2 * W}px, ${(1 - v.y) / 2 * H}px) ${a.shift}`
+    }
     renderer.render(scene, cam)
   }
 
@@ -261,5 +270,6 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); ro?.disconnect(); renderer?.d
 <style>
 .decomp-live { position: relative; width: 100%; height: 100%; }
 .decomp-live canvas { display: block; width: 100% !important; height: 100% !important; }
+.dl-label.dl-axis { font-size: 24px; font-weight: 600; color: var(--ink); }
 .dl-label { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; pointer-events: none; font-family: 'Hanken Grotesk', Arial, sans-serif; font-size: 34px; font-weight: 700; color: #7a5a00; }
 </style>

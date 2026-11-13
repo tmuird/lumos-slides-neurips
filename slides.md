@@ -435,12 +435,12 @@ disabled: true
 <div class="head"><span class="tag">Method</span><h2>Inferring the unknowns with a VAE</h2></div>
 
 <p class="vae-in-label">Input <Tex src="x" /></p>
-<img class="vae-in" src="/img/vae-input.png" alt="Input: a bleaching series as a grey surface over time and wavenumber">
+<img class="vae-in" src="/img/vae-input.svg" alt="Input: the first frames of a noisy bleaching series as a grey surface over time and wavenumber">
 <div class="vae-stage"><VaePrimer /></div>
 
 <style>
-.vae-in-label { position: absolute; left: 50px; top: 395px; width: 400px; text-align: center; font-size: 32px; font-weight: 700; }
-.vae-in { position: absolute; left: 50px; top: 471px; width: 400px; height: 327px; object-fit: contain; }
+.vae-in-label { position: absolute; left: 30px; top: 395px; width: 440px; text-align: center; font-size: 32px; font-weight: 700; }
+.vae-in { position: absolute; left: 30px; top: 440px; width: 440px; height: 420px; object-fit: contain; }
 .vae-stage { position: absolute; left: 470px; top: 335px; width: 1390px; height: 560px; }
 .vae-def { position: absolute; top: 780px; width: 540px; display: flex; flex-direction: column; gap: 10px; }
 .vae-def .name { font-size: 34px; font-weight: 700; }

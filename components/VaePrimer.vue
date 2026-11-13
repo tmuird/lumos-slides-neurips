@@ -77,6 +77,7 @@ onMounted(() => {
     g.strokeStyle = 'rgba(11,12,12,.5)'; g.lineWidth = 1.5
     g.beginPath(); g.moveTo(OL, OB); g.lineTo(OR, OB); g.moveTo(OL, OB); g.lineTo(OL, OT); g.stroke()
     txt('Raman shift', (OL + OR) / 2, OB + 34, MUTE, 'center', 22)
+    g.save(); g.translate(OL - 16, (OT + OB) / 2); g.rotate(-Math.PI / 2); txt('Intensity', 0, 0, MUTE, 'center', 22); g.restore()
     txt('spread exaggerated for illustration', OR, OT - 8, MUTE, 'right', 20)
 
     const n = Math.min(NS, Math.floor(t / EVERY) + 1)
