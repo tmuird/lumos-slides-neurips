@@ -1,7 +1,6 @@
 ---
 title: LUMOS
-info: Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved
-  Spectroscopy. NeurIPS 2026.
+info: Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy. NeurIPS 2026.
 canvasWidth: 1920
 aspectRatio: 16/9
 colorSchema: light
@@ -18,6 +17,47 @@ layout: default
 class: cover
 ---
 
+<script setup>
+import CoverGlow from './components/CoverGlow.vue'
+</script>
+
+<div class="glow-stage"><CoverGlow /></div>
+
+<div class="glow-text">
+  <span class="tag">NeurIPS 2026</span>
+  <h1>Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy</h1>
+  <p class="glow-sub"><b>LUMOS</b>: Latent Un-Mixing of partially Observed Spectra</p>
+  <div class="glow-authors">
+    <p><b>Tom Muir</b>, Qifeng Liu, Mohammadrahim Kazemzadeh, William Mills, Aleš Leonardis, Huabing Yin, Alexander Krull</p>
+    <p class="glow-aff">University of Birmingham · University of Glasgow</p>
+  </div>
+</div>
+
+<style>
+.cover { padding: 0 !important; background: #05080f !important; }
+.glow-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+.glow-text { position: absolute; left: 80px; top: 0; width: 800px; height: 1080px; display: flex; flex-direction: column; justify-content: center; gap: 26px; color: #f3f2f1; }
+.glow-text .tag { align-self: flex-start; margin: 0; }
+.glow-text h1 { font-size: 62px; line-height: 1.08; font-weight: 700; color: #fff; }
+.glow-sub { font-size: 28px; color: #e6e4df; }
+.glow-authors { display: flex; flex-direction: column; gap: 8px; font-size: 22px; border-top: 2px solid rgba(255, 255, 255, 0.55); padding-top: 20px; color: #d8d6d2; }
+.glow-aff { color: #a9adb0; font-size: 20px; }
+</style>
+
+<!--
+- LUMOS: unsupervised decomposition of short Raman bleaching series
+- Each line: the spectrum at one moment, time running towards us (real pharmaceutical sample)
+- Orange: fluorescence, bleaching away over about a minute
+- White lines at the back: all we measure, the first 16 frames, 1.6 s
+- Bright blue line at the front: the Raman spectrum we want
+-->
+
+---
+layout: default
+class: cover
+disabled: true
+---
+
 <div class="cover-text">
   <span class="tag">NeurIPS 2026</span>
   <h1>Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy</h1>
@@ -30,6 +70,7 @@ class: cover
 
 <div class="cover-surface">
   <CoverStack :zoom="1.16" />
+  <p class="caption">Pharmaceutical test sample: the Raman signal (black outline) sits under fluorescence that takes about a minute to bleach away. LUMOS recovers it from the first 16 frames (dark), 1.6 s. Square-root time axis; noise not shown.</p>
 </div>
 
 <style>
