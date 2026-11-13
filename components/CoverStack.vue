@@ -26,7 +26,7 @@ watch(active, v => { if (v) t0 = null }, { immediate: true })
 const ease = x => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x))
 const easeOut = x => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3))
 // orange (fluorescence) to blue (Raman), turning through red-violet so it never passes through grey
-const GRAD = [[0, [241, 105, 19]], [0.35, [203, 24, 29]], [0.65, [106, 81, 163]], [1, [8, 81, 156]]]
+const GRAD = [[0, [255, 128, 20]], [0.33, [238, 62, 58]], [0.66, [136, 72, 176]], [1, [16, 86, 178]]]
 function grad(u) {
   let a = GRAD[0], b = GRAD[GRAD.length - 1]
   for (let k = 0; k < GRAD.length - 1; k++) if (u >= GRAD[k][0] && u <= GRAD[k + 1][0]) { a = GRAD[k]; b = GRAD[k + 1]; break }
@@ -72,13 +72,13 @@ onMounted(() => {
     m.userData.per = (NX - 1) * 6; m.userData.rows = n
     scene.add(m); return m
   }
-  const shade = (c, h, lo) => { const k = lo + (1 - lo) * Math.min(1, h / 0.8); return new THREE.Color(c.r * (0.55 + 0.45 * k) + (1 - k) * 0.25, c.g * (0.55 + 0.45 * k) + (1 - k) * 0.25, c.b * (0.55 + 0.45 * k) + (1 - k) * 0.25) }
+  const shade = (c, h, lo) => { const k = lo + (1 - lo) * Math.min(1, h / 0.8); const m = 0.7 + 0.3 * k; return new THREE.Color(c.r * m, c.g * m, c.b * m) }
 
   // input: the 16 measured frames and the boundary frame, as a grey surface with its noise
   const inT = P.t.slice(0, nIn + 1)
   // the 16 noisy frames, then one closing row at the clean height so the grey meets the smooth surface exactly
   const inH = (j, i) => (j === nIn ? cleanAt(i, tIn) * S : Math.max(0, noisyAt(j, i) * S))
-  const input = surface(inT, inH, (j, h) => { const v = 0.3 + 0.5 * Math.min(1, h / 0.8); return new THREE.Color(v, v, v * 1.02) }, true)
+  const input = surface(inT, inH, (j, h) => { const v = 0.1 + 0.3 * Math.min(1, h / 0.8); return new THREE.Color(v, v, v * 1.04) }, true)
   // rows evenly spaced on the square-root axis, from 0 to tMax
   const NR = 160
   const s0 = Math.sqrt(tIn / props.tMax)
@@ -107,7 +107,7 @@ onMounted(() => {
   const tipGeo = new LineGeometry(); tipGeo.setPositions(tip)
   const tipMat = new LineMaterial({ color: 0x0b0c0c, linewidth: 4.5, resolution: new THREE.Vector2(W(), H()) })
   scene.add(new Line2(tipGeo, tipMat))
-  const GREY = new THREE.Color(0.5, 0.5, 0.51)
+  const GREY = new THREE.Color(0.2, 0.2, 0.21)
   wall(nIn + 1, j => [-1, inH(j, 0), Z(inT[j])], () => GREY.clone()); wall(nIn + 1, j => [1, inH(j, NX - 1), Z(inT[j])], () => GREY.clone())
 
   // the end of the input, floor and ticks
@@ -120,16 +120,25 @@ onMounted(() => {
   const TICKS = [0, 10, 30, props.tMax]
   for (const t of TICKS) g.push(-1, 0, Z(t), 1, 0, Z(t))
   const gg = new THREE.BufferGeometry(); gg.setAttribute('position', new THREE.Float32BufferAttribute(g, 3))
-  scene.add(new THREE.LineSegments(gg, new THREE.LineBasicMaterial({ color: 0xd6d8d9 })))
+  scene.add(new THREE.LineSegments(gg, new THREE.LineBasicMaterial({ color: 0xd6d8d9, transparent: true, opacity: 0.6 })))
   // soft, mostly ambient light: shape from a gentle key, no hard highlights
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe8e4dc, 1.6))
-  const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(-1.2, 3, 2.2); scene.add(key)
+  // a warm key from the front left for relief across the ridges, a cool rim from behind, and less flat ambient
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd9d4c8, 1.15))
+  const key = new THREE.DirectionalLight(0xfff4e6, 2.0); key.position.set(-2.2, 2.6, 2.4); scene.add(key)
+  const rim = new THREE.DirectionalLight(0xdbe8ff, 0.7); rim.position.set(2, 1.5, -2.5); scene.add(rim)
+  // a soft contact shadow so the block sits on the page
+  const cv = document.createElement('canvas'); cv.width = cv.height = 256
+  const cx = cv.getContext('2d'), gr = cx.createRadialGradient(128, 128, 20, 128, 128, 128)
+  gr.addColorStop(0, 'rgba(20,24,40,0.34)'); gr.addColorStop(0.6, 'rgba(20,24,40,0.14)'); gr.addColorStop(1, 'rgba(20,24,40,0)')
+  cx.fillStyle = gr; cx.fillRect(0, 0, 256, 256)
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(3.3, 2.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true, depthWrite: false }))
+  shadow.rotation.x = -Math.PI / 2; shadow.position.set(0.05, -0.004, 0.08); scene.add(shadow)
 
   const label = (html, cls, pos, anchor = 0.5) => { const d = document.createElement('div'); d.className = 'cs-label ' + cls; d.innerHTML = html; const o = new CSS2DObject(d); o.position.set(...pos); o.center.set(anchor, 0.5); scene.add(o); return d }
   label('400', 'tick', [-0.92, 0, 0.92]); label('1800', 'tick', [0.92, 0, 0.92]); label('Raman shift (cm⁻¹)', 'axis', [0, 0, 1.12])
   TICKS.forEach(t => label(t + ' s', 'tick', [1.36, 0, Z(t)]))
-  label('Intensity', 'axis', [-1.3, top * 0.5, -0.75])
-  label('16 noisy input frames', 'input', [-0.45, top + 0.08, Z(tIn / 2)])
+  label('Intensity', 'axis', [-1.0, top + 0.09, -0.75])
+  label('16 noisy input frames', 'input', [0.2, top + 0.09, Z(tIn / 2)])
   label('Fluorescence,<br>bleaching away', 'fluo', [1.14, 0.52, Z(2.5)], 0); label('Raman', 'raman', [-1.1, 0.07, Z(props.tMax)], 1)
 
   // camera: a slow rotation at a fixed distance

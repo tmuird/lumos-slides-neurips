@@ -28,7 +28,7 @@ class: cover
 </div>
 
 <div class="cover-surface">
-  <CoverStack />
+  <CoverStack :zoom="1.16" />
   <p class="caption">Pharmaceutical test sample: the Raman signal (black outline) sits under fluorescence (orange) that takes about a minute to bleach away. LUMOS recovers it from the first 16 noisy frames (grey). Square-root time axis.</p>
 </div>
 
