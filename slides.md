@@ -29,7 +29,7 @@ class: cover
 
 <div class="cover-surface">
   <CoverStack :zoom="1.16" />
-  <p class="caption">Pharmaceutical test sample: the Raman signal (black outline) sits under fluorescence (orange) that takes about a minute to bleach away. LUMOS recovers it from the first 16 noisy frames (grey). Square-root time axis.</p>
+  <p class="caption">Pharmaceutical test sample: the Raman signal (black outline) sits under fluorescence that takes about a minute to bleach away. LUMOS recovers it from the first 16 frames (dark), 1.6 s. Square-root time axis; noise not shown.</p>
 </div>
 
 <style>
@@ -49,8 +49,8 @@ class: cover
 - LUMOS: unsupervised decomposition of short Raman bleaching series
 - Black outline at the front: the Raman spectrum we want
 - Orange: fluorescence on top of it, bleaching away over about a minute
-- Grey: all we measure, 16 noisy frames, 1.6 s
-- Goal: recover the black outline from the grey
+- Dark: all we measure, the first 16 frames, 1.6 s (noisy in reality, next slide)
+- Goal: recover the black outline from the dark part
 -->
 
 ---
@@ -84,8 +84,11 @@ disabled: true
 <div class="head"><span class="tag">Background</span><h2>Raman spectroscopy</h2></div>
 
 <img class="spec-instrument" src="/img/spectrometer.png" alt="Spectrometer: laser, filter, grating and CCD detector">
-<img v-click="1" class="spec-ccd" src="/img/ccd.jpg" alt="Raw CCD image of a dispersed spectrum">
-<img v-click="2" class="spec-plot" src="/img/spectra.png" alt="Comparison of measured Raman spectra">
+<script setup>
+import SpectrumStrip from './components/SpectrumStrip.vue'
+</script>
+
+<div class="spec-strip"><SpectrumStrip :step="$clicks" /></div>
 
 <div v-click="3" class="spec-text">
   <p>Measure and plot Raman shifts</p>
@@ -99,24 +102,24 @@ disabled: true
   <div v-click="5" class="problem"><span class="num">2</span><div><p class="name">Noise</p><p>The Raman signal is weak, so shot noise swamps it</p></div></div>
 </div>
 
-<p class="caption spec-source">Source: Schmid and Dariz, Heritage 2019, 2, 1662–1683</p>
+<p class="caption spec-source">Instrument diagram: Schmid and Dariz, Heritage 2019, 2, 1662–1683. Detector strip and spectrum: the Raman spectrum of pharmaceutical test sample 3349; the strip is a rendering of that spectrum, not a camera image.</p>
 
 <style>
 .spec-instrument { position: absolute; left: 80px; top: 230px; width: 448px; height: 660px; object-fit: contain; }
-.spec-ccd { position: absolute; left: 590px; top: 300px; width: 620px; height: 160px; object-fit: cover; }
-.spec-plot { position: absolute; left: 570px; top: 560px; width: 660px; height: 330px; object-fit: contain; }
+.spec-strip { position: absolute; left: 560px; top: 250px; width: 690px; height: 630px; }
 .spec-text { position: absolute; left: 1290px; top: 230px; width: 550px; display: flex; flex-direction: column; gap: 14px; }
 .spec-problems { position: absolute; left: 1290px; top: 600px; width: 550px; display: flex; flex-direction: column; gap: 22px; }
 .problem { display: flex; gap: 22px; align-items: flex-start; }
 .problem .num { flex: none; width: 64px; height: 64px; background: var(--neutral); border: 2px solid var(--ink); font-size: 40px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 .problem .name { font-size: 40px; font-weight: 700; line-height: 1.1; }
 .problem p:not(.name) { font-size: 26px; }
-.spec-source { position: absolute; left: 80px; top: 960px; }
+.spec-source { position: absolute; left: 80px; top: 960px; width: 1760px; }
 </style>
 
 <!--
 - Filter out Rayleigh, grating onto CCD
-- Raw image, then spectrum
+- Click: light spread across the detector, bright bands
+- Click: read out as a spectrum; each band is a peak
 - Peaks = chemical fingerprint
 - Two problems: fluorescence, noise
 -->

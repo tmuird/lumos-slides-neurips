@@ -2,7 +2,8 @@
 // Cover: the problem in one plot, from real pharma sample 3349. Static from the first frame, slowly rotating.
 // Blue, opaque: the Raman spectrum, constant in time. This is what we want.
 // Orange, translucent: the clean measurement (Raman + fluorescence), bleaching down onto the Raman over a minute.
-// Grey: the 16 noisy frames actually measured (1.6 s), closed onto the clean surface where they end.
+// Charcoal: the first 16 frames (1.6 s), all that LUMOS is given. One smooth surface throughout: the noise is
+// shown on the decomposition slide, not mixed in here.
 // Time uses a square-root axis with explicit ticks, so the short input stays readable beside the full bleach.
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import * as THREE from 'three'
@@ -76,9 +77,9 @@ onMounted(() => {
 
   // input: the 16 measured frames and the boundary frame, as a grey surface with its noise
   const inT = P.t.slice(0, nIn + 1)
-  // the 16 noisy frames, then one closing row at the clean height so the grey meets the smooth surface exactly
-  const inH = (j, i) => (j === nIn ? cleanAt(i, tIn) * S : Math.max(0, noisyAt(j, i) * S))
-  const input = surface(inT, inH, (j, h) => { const v = 0.1 + 0.3 * Math.min(1, h / 0.8); return new THREE.Color(v, v, v * 1.04) }, true)
+  // the input region of the same clean surface, in charcoal
+  const inH = (j, i) => cleanAt(i, inT[j]) * S
+  const input = surface(inT, inH, (j, h) => { const v = 0.07 + 0.2 * Math.min(1, h / 0.8); return new THREE.Color(v, v, v * 1.06) })
   // rows evenly spaced on the square-root axis, from 0 to tMax
   const NR = 160
   const s0 = Math.sqrt(tIn / props.tMax)
@@ -138,7 +139,7 @@ onMounted(() => {
   label('400', 'tick', [-0.92, 0, 0.92]); label('1800', 'tick', [0.92, 0, 0.92]); label('Raman shift (cm⁻¹)', 'axis', [0, 0, 1.12])
   TICKS.forEach(t => label(t + ' s', 'tick', [1.36, 0, Z(t)]))
   label('Intensity', 'axis', [-1.0, top + 0.09, -0.75])
-  label('16 noisy input frames', 'input', [0.2, top + 0.09, Z(tIn / 2)])
+  label('16 input frames', 'input', [0.2, top + 0.09, Z(tIn / 2)])
   label('Fluorescence,<br>bleaching away', 'fluo', [1.14, 0.52, Z(2.5)], 0); label('Raman', 'raman', [-1.1, 0.07, Z(props.tMax)], 1)
 
   // camera: a slow rotation at a fixed distance
