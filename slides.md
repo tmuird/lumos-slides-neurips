@@ -706,10 +706,27 @@ class: dark
   <h1>Thank you</h1>
   <p>Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy</p>
   <p class="small">Tom Muir, Qifeng Liu, Mohammadrahim Kazemzadeh, William Mills, Aleš Leonardis, Huabing Yin, Alexander Krull<br>University of Birmingham · University of Glasgow</p>
+  <div class="ty-find">
+    <img src="/img/qr-github.svg" alt="QR code for github.com/krulllab/LUMOS">
+    <div>
+      <p class="ty-k">Code and data</p><p class="ty-v">github.com/krulllab/LUMOS</p>
+      <p class="ty-k">Poster</p><p class="ty-v">Session 5 · Hall C1 · Friday</p>
+    </div>
+  </div>
 </div>
+
+<style>
+.ty-find { display: flex; align-items: center; gap: 36px; margin-top: 10px; }
+.ty-find img { width: 190px; height: 190px; }
+.ty-find div { display: grid; grid-template-columns: auto auto; column-gap: 28px; row-gap: 14px; align-items: baseline; justify-content: start; }
+.dark-body .ty-k { font-family: 'Space Mono', monospace; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mustard); }
+.dark-body .ty-v { font-size: 36px; color: #fff; }
+</style>
 
 <!--
 - Thanks for listening
+- Code and the human cell dataset are on GitHub
+- Poster: Session 5, Hall C1, Friday
 -->
 
 ---
