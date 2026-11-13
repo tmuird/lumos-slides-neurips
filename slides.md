@@ -1,6 +1,7 @@
 ---
 title: LUMOS
-info: Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy. NeurIPS 2026.
+info: Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved
+  Spectroscopy. NeurIPS 2026.
 canvasWidth: 1920
 aspectRatio: 16/9
 colorSchema: light
@@ -29,7 +30,6 @@ class: cover
 
 <div class="cover-surface">
   <CoverStack :zoom="1.16" />
-  <p class="caption">Pharmaceutical test sample: the Raman signal (black outline) sits under fluorescence that takes about a minute to bleach away. LUMOS recovers it from the first 16 frames (dark), 1.6 s. Square-root time axis; noise not shown.</p>
 </div>
 
 <style>

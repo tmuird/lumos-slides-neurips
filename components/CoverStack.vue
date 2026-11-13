@@ -137,10 +137,11 @@ onMounted(() => {
 
   const label = (html, cls, pos, anchor = 0.5) => { const d = document.createElement('div'); d.className = 'cs-label ' + cls; d.innerHTML = html; const o = new CSS2DObject(d); o.position.set(...pos); o.center.set(anchor, 0.5); scene.add(o); return d }
   label('400', 'tick', [-0.92, 0, 0.92]); label('1800', 'tick', [0.92, 0, 0.92]); label('Raman shift (cm⁻¹)', 'axis', [0, 0, 1.12])
-  TICKS.forEach(t => label(t + ' s', 'tick', [1.36, 0, Z(t)]))
+  // at this angle a 0 s label would sit behind the tall back edge, so the time labels start at 10 s
+  TICKS.filter(t => t > 0).forEach(t => label(t + ' s', 'tick', [1.3, 0, Z(t)]))
   label('Intensity', 'axis', [-1.0, top + 0.09, -0.75])
   label('16 input frames', 'input', [0.2, top + 0.09, Z(tIn / 2)])
-  label('Fluorescence,<br>bleaching away', 'fluo', [1.14, 0.52, Z(2.5)], 0); label('Raman', 'raman', [-1.1, 0.07, Z(props.tMax)], 1)
+  label('Fluorescence,<br>bleaching away', 'fluo', [1.14, 0.52, Z(2.5)], 0); label('Raman', 'raman', [-1.22, 0.02, Z(props.tMax) - 0.02], 1)
 
   // camera: a slow rotation at a fixed distance
   const VF = 32 * Math.PI / 180
@@ -151,7 +152,7 @@ onMounted(() => {
   }
   const tgt = new THREE.Vector3(0.05, top * 0.4, 0)
   const place = (t) => {
-    const az = -0.42 + 0.17 * Math.sin(t * 0.12)
+    const az = -0.785 + 0.12 * Math.sin(t * 0.12)
     const e = 0.36 + 0.03 * Math.sin(t * 0.09)
     const r = fitDist() / props.zoom
     camera.position.set(tgt.x + r * Math.sin(az) * Math.cos(e), tgt.y + r * Math.sin(e), tgt.z + r * Math.cos(az) * Math.cos(e))
