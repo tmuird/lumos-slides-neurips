@@ -85,7 +85,7 @@ onMounted(() => {
   composer.addPass(bloom); composer.addPass(new OutputPass())
 
   // the block sits right of centre, leaving the left for the title
-  const tgt = new THREE.Vector3(-1.85, 0.3, 0.25)
+  const tgt = new THREE.Vector3(-1.85, 0.68, 0.25)
   const place = t => {
     const az = -0.72 + 0.1 * Math.sin(t * 0.11), e = 0.34 + 0.02 * Math.sin(t * 0.08), r = 6.6
     camera.position.set(tgt.x + r * Math.sin(az) * Math.cos(e), tgt.y + r * Math.sin(e), tgt.z + r * Math.cos(az) * Math.cos(e))
