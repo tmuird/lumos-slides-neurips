@@ -357,7 +357,7 @@ const mfStage = ref(0)
   <div><p><Tex src="N" /> : number of fluorophores</p><p><Tex src="s" /> : Raman signal (fixed)</p></div>
   <div><p><Tex src="B_i" /> : fluorophore spectra</p><p><Tex src="w_i" /> : weight / abundance</p><p><Tex src="\lambda_i" /> : decay rate</p></div>
 </div>
-<p :class="{ 'mf-off': mfStage < 5 }" class="mf-few">LUMOS is given only the first 16 frames: 1.6 s of a 10 s measurement.</p>
+<p :class="{ 'mf-off': mfStage < 5 }" class="mf-few">LUMOS is given only the first few frames: here 16, the first 1.6 s.</p>
 <p class="caption mf-cap">Pharmaceutical test sample 3349: the measured series, then its true Raman and fluorophores from the simulation.</p>
 
 <style>
@@ -382,7 +382,8 @@ const mfStage = ref(0)
 - Click: input slides left, y = s + F
 - Click: fluorescence fans into its three fluorophores
 - Click: definitions
-- Click: it all runs back into the measurement; then only the first 16 frames stay solid, the rest is never given to LUMOS
+- Click: it all runs back into the measurement; then only the first few frames stay solid, the rest is never given to LUMOS
+- Here 16 frames; on the real cells 16 of the roughly 150 to 200 recorded
 - Observed = constant Raman + decaying fluorescence
 - Same simulated sample as before, true parts
 - Each fluorophore: spectrum, abundance, decay rate
@@ -438,9 +439,9 @@ disabled: true
 <div class="vae-stage"><VaePrimer /></div>
 
 <style>
-.vae-in-label { position: absolute; left: 50px; top: 330px; width: 400px; text-align: center; font-size: 32px; font-weight: 700; }
-.vae-in { position: absolute; left: 50px; top: 406px; width: 400px; height: 327px; object-fit: contain; }
-.vae-stage { position: absolute; left: 470px; top: 270px; width: 1390px; height: 560px; }
+.vae-in-label { position: absolute; left: 50px; top: 395px; width: 400px; text-align: center; font-size: 32px; font-weight: 700; }
+.vae-in { position: absolute; left: 50px; top: 471px; width: 400px; height: 327px; object-fit: contain; }
+.vae-stage { position: absolute; left: 470px; top: 335px; width: 1390px; height: 560px; }
 .vae-def { position: absolute; top: 780px; width: 540px; display: flex; flex-direction: column; gap: 10px; }
 .vae-def .name { font-size: 34px; font-weight: 700; }
 </style>

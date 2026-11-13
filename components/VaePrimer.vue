@@ -26,7 +26,7 @@ const [mx, my] = P(MU[0], MU[1])
 const at = (x, y) => ({ left: (x / W * 100) + '%', top: (y / H * 100) + '%' })
 const MATH = [
   { src: 'p(z)', pre: 'prior ', style: at(LX, LY + S - 34), cls: 'mute' },
-  { src: 'q_\\phi(z \\mid x)', style: at(mx + SG[0] * sc * 2 + 10, my - SG[1] * sc * 2 - 40), cls: 'lat' },
+  { src: 'q_\\phi(z \\mid x)', style: at(mx - 28, my - SG[1] * sc * 2 - 62), cls: 'lat' },
   { src: 'z_1', style: at(LX + S - 34, oy + 4), cls: 'mute' },
   { src: 'z_2', style: at(ox + 10, LY - 4), cls: 'mute' },
 ]
