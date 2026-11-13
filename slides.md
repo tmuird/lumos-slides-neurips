@@ -707,28 +707,30 @@ class: dark
   <p>Unsupervised Physics Informed Decomposition of Incomplete Time-Resolved Spectroscopy</p>
   <p class="small">Tom Muir, Qifeng Liu, Mohammadrahim Kazemzadeh, William Mills, Aleš Leonardis, Huabing Yin, Alexander Krull<br>University of Birmingham · University of Glasgow</p>
   <div class="ty-find">
-    <img src="/img/qr-github.svg" alt="QR code for github.com/krulllab/LUMOS">
-    <div>
-      <p class="ty-k">Code and data</p><p class="ty-v">github.com/krulllab/LUMOS</p>
-      <p class="ty-k">Poster</p><p class="ty-v">Session 5 · Hall C1 · Friday</p>
-    </div>
+    <div class="ty-qr"><img src="/img/qr-code.svg" alt="QR code for the LUMOS code repository"><div><p class="ty-k">Code</p><p class="ty-v">github.com/krulllab/LUMOS</p></div></div>
+    <div class="ty-qr"><img src="/img/qr-data.svg" alt="QR code for the human cell dataset"><div><p class="ty-k">Data</p><p class="ty-v">github.com/krulllab/LUMOS#data</p></div></div>
   </div>
+  <p class="ty-poster"><span class="ty-k">Poster</span> Session 5 · Hall C1 · Friday</p>
 </div>
 
 <style>
-.ty-find { display: flex; align-items: center; gap: 36px; margin-top: 10px; }
-.ty-find img { width: 190px; height: 190px; }
-.ty-find div { display: grid; grid-template-columns: auto auto; column-gap: 28px; row-gap: 14px; align-items: baseline; justify-content: start; }
+.ty-find { display: flex; gap: 70px; margin-top: 6px; }
+.ty-qr { display: flex; align-items: center; gap: 26px; }
+.ty-qr img { width: 170px; height: 170px; }
+.ty-qr div { display: flex; flex-direction: column; gap: 8px; }
 .dark-body .ty-k { font-family: 'Space Mono', monospace; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mustard); }
-.dark-body .ty-v { font-size: 36px; color: #fff; }
+.dark-body .ty-v { font-size: 30px; color: #fff; }
+.dark-body .ty-poster { font-size: 32px; color: #fff; display: flex; align-items: baseline; gap: 24px; }
 </style>
 
 <!--
 - Thanks for listening
-- Code and the human cell dataset are on GitHub
+- Code and the human cell dataset are on GitHub: two QR codes
 - Poster: Session 5, Hall C1, Friday
 -->
 
+---
+disabled: true
 ---
 
 <div class="head"><span class="tag">Backup</span><h2>What RADAR is given</h2></div>
